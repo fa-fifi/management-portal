@@ -1,0 +1,34 @@
+name: flutter_firebase_login
+description: A new Flutter project.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  authentication_repository:
+    path: packages/authentication_repository
+  equatable: ^2.0.3
+  flow_builder: ^0.0.9
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.1
+  font_awesome_flutter: ^10.1.0
+  form_inputs:
+    path: packages/form_inputs
+  formz: ^0.4.0
+  google_fonts: ^3.0.1
+  meta: ^1.7.0
+
+dev_dependencies:
+  bloc_test: ^9.0.0
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  very_good_analysis: ^3.0.2
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
