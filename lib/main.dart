@@ -1,4 +1,3 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_firebase_login/bloc/bloc_observer.dart';
 import 'package:flutter_firebase_login/firebase_options.dart';
 import 'package:flutter_firebase_login/pages/home.dart';
 import 'package:flutter_firebase_login/pages/login.dart';
+import 'package:flutter_firebase_login/repositories/auth_repository.dart';
 import 'package:flutter_firebase_login/theme.dart';
 
 Future<void> main() async {
@@ -16,7 +16,7 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final authenticationRepository = AuthenticationRepository();
+  final authenticationRepository = AuthRepository();
   await authenticationRepository.user.first;
 
   runApp(MyApp(authenticationRepository: authenticationRepository));
@@ -25,10 +25,10 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({
     super.key,
-    required AuthenticationRepository authenticationRepository,
+    required AuthRepository authenticationRepository,
   }) : _authenticationRepository = authenticationRepository;
 
-  final AuthenticationRepository _authenticationRepository;
+  final AuthRepository _authenticationRepository;
 
   @override
   Widget build(BuildContext context) {

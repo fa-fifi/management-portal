@@ -1,4 +1,4 @@
-part of 'sign_up_cubit.dart';
+part of 'signup_cubit.dart';
 
 enum ConfirmPasswordValidationError { invalid }
 

@@ -1,9 +1,9 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_login/cubit/login_cubit.dart';
 import 'package:flutter_firebase_login/pages/signup.dart';
+import 'package:flutter_firebase_login/repositories/auth_repository.dart';
 import 'package:formz/formz.dart';
 
 class Login extends StatelessWidget {
@@ -15,7 +15,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) => LoginCubit(context.read<AuthenticationRepository>()),
+        create: (_) => LoginCubit(context.read<AuthRepository>()),
         child: BlocListener<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state.status.isSubmissionFailure) {

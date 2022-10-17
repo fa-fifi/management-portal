@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 
 final theme = ThemeData(
   primarySwatch: Colors.teal,
-  appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.transparent,
-    foregroundColor: Colors.black,
-  ),
   inputDecorationTheme: InputDecorationTheme(
     fillColor: Colors.grey.shade200,
     filled: true,
