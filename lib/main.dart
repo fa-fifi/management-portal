@@ -4,15 +4,15 @@ import 'package:flow_builder/flow_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_login/bloc/auth_bloc.dart';
-import 'package:flutter_firebase_login/bloc/auth_bloc_observer.dart';
+import 'package:flutter_firebase_login/bloc/bloc_observer.dart';
 import 'package:flutter_firebase_login/firebase_options.dart';
-import 'package:flutter_firebase_login/pages/home_page.dart';
-import 'package:flutter_firebase_login/pages/login_page.dart';
+import 'package:flutter_firebase_login/pages/home.dart';
+import 'package:flutter_firebase_login/pages/login.dart';
 import 'package:flutter_firebase_login/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer = AuthBlocObserver();
+  Bloc.observer = GlobalBlocObserver();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -53,9 +53,9 @@ class Landing extends StatelessWidget {
   ) {
     switch (state) {
       case AuthStatus.authenticated:
-        return [HomePage.page()];
+        return [Home.page()];
       case AuthStatus.unauthenticated:
-        return [LoginPage.page()];
+        return [Login.page()];
     }
   }
 
