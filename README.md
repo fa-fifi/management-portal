@@ -48,20 +48,23 @@ To make sure the app runs smoothly, please debugging the app from the terminal b
 Beautiful UI design and clean background will give a nice first impression for every new user.
 
 
-
+__________________________________________________________________________________________________
 ![Title](/assets/flutter_03.png)
 ### What You See Is What You Get
 When users land on the home screen, they can see and understand all the functions that the app provides in a quick glance.
 
 
-
+__________________________________________________________________________________________________
 ![Title](/assets/flutter_04.png)
 ### Premium Membership
 For premium users, they can access to all of the available contents.
 
 
-
+__________________________________________________________________________________________________
 ![Title](/assets/flutter_05.png)
 ### Post to Community
 Every verified users are able to post either normal or premium contents to the community.
+
+
+__________________________________________________________________________________________________
 
