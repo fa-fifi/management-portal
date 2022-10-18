@@ -7,7 +7,7 @@ class User extends Equatable {
     this.fullname,
     this.email,
     this.photo,
-    this.isPremium = false,
+    this.membership = Membership.normal,
     this.createdAt,
     this.updatedAt,
   });
@@ -17,19 +17,25 @@ class User extends Equatable {
   final String? fullname;
   final String? email;
   final String? photo;
-  final bool isPremium;
+  final Membership membership;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
   /// Empty user which represents an unauthenticated user.
   static const empty = User(id: '');
 
-  /// Convenience getter to determine whether the current user is empty.
+  /// Determine whether the current user is empty.
   bool get isEmpty => this == User.empty;
 
-  /// Convenience getter to determine whether the current user is not empty.
+  /// Determine whether the current user is not empty.
   bool get isNotEmpty => this != User.empty;
 
+  /// Determine whether the current user is a premium user or not.
+  bool get isPremium => membership == Membership.premium;
+
   @override
-  List<Object?> get props => [email, id, username, photo];
+  List<Object?> get props =>
+      [id, username, fullname, email, photo, membership, createdAt, updatedAt];
 }
+
+enum Membership { normal, premium }
