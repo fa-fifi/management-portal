@@ -7,7 +7,7 @@ class User extends Equatable {
     this.fullname,
     this.email,
     this.photo,
-    this.membership = Membership.normal,
+    this.membership = Membership.premium,
     this.createdAt,
     this.updatedAt,
   });

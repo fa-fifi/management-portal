@@ -18,12 +18,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late final user = context.select((AuthBloc bloc) => bloc.state.user);
-  final List<Widget> fruits = <Widget>[
+  final List<Widget> categories = <Widget>[
     const Text('Popular'),
     const Text('Latest'),
     const Text('Oldest'),
   ];
-  final List<bool> _selectedFruits = <bool>[true, false, false];
+  final List<bool> _selectedCategories = <bool>[true, false, false];
+  late final List<Post> posts = user.isPremium
+      ? gallery
+      : gallery.where((post) => post.isPremium == false).toList();
 
   Future<void> openDialog(BuildContext context) {
     return showDialog(
@@ -135,8 +138,8 @@ class _HomeState extends State<Home> {
             child: ToggleButtons(
               onPressed: (int index) {
                 setState(() {
-                  for (var i = 0; i < _selectedFruits.length; i++) {
-                    _selectedFruits[i] = i == index;
+                  for (var i = 0; i < _selectedCategories.length; i++) {
+                    _selectedCategories[i] = i == index;
                   }
                 });
               },
@@ -149,8 +152,8 @@ class _HomeState extends State<Home> {
                 minHeight: 40,
                 minWidth: 80,
               ),
-              isSelected: _selectedFruits,
-              children: fruits,
+              isSelected: _selectedCategories,
+              children: categories,
             ),
           ),
           Expanded(
@@ -170,18 +173,18 @@ class _HomeState extends State<Home> {
                 ],
               ),
               childrenDelegate: SliverChildBuilderDelegate(
-                childCount: gallery.length,
+                childCount: posts.length,
                 (context, index) => Stack(
                   fit: StackFit.expand,
                   children: [
                     Card(
                       margin: EdgeInsets.zero,
                       child: Image.network(
-                        gallery[index].image,
+                        posts[index].image,
                         fit: BoxFit.cover,
                       ),
                     ),
-                    if (gallery[index].isPremium)
+                    if (posts[index].isPremium)
                       Positioned(
                         right: 10,
                         top: 10,
@@ -209,7 +212,7 @@ class _HomeState extends State<Home> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            gallery[index].title!,
+                            posts[index].title!,
                             style:
                                 Theme.of(context).primaryTextTheme.bodyMedium,
                           ),
