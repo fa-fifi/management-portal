@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_firebase_login/models/user.dart';
-import 'package:flutter_firebase_login/repositories/auth_repository.dart';
+import 'package:flutter_firebase_login/repositories/auth.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

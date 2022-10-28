@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_login/cubit/login_cubit.dart';
 import 'package:flutter_firebase_login/pages/signup.dart';
-import 'package:flutter_firebase_login/repositories/auth_repository.dart';
+import 'package:flutter_firebase_login/repositories/auth.dart';
 import 'package:formz/formz.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
-  static Page<void> page() => const MaterialPage<void>(child: Login());
+  static Page<void> page() => const MaterialPage<void>(child: LoginScreen());
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +156,8 @@ class _SignUpButton extends StatelessWidget {
       children: [
         const Text("Don't have an account yet?"),
         TextButton(
-          onPressed: () => Navigator.of(context).push<void>(Signup.route()),
+          onPressed: () =>
+              Navigator.of(context).push<void>(SignupScreen.route()),
           child: Text(
             'Sign Up',
             style: TextStyle(color: Theme.of(context).primaryColor),

@@ -1,22 +1,22 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_login/bloc/auth_bloc.dart';
 import 'package:flutter_firebase_login/models/post.dart';
+import 'package:flutter_firebase_login/pages/post.dart';
 import 'package:flutter_firebase_login/pages/upload.dart';
+import 'package:flutter_firebase_login/repositories/post.dart';
 import 'package:flutter_firebase_login/widgets/avatar.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
-  static Page<void> page() => const MaterialPage<void>(child: Home());
+  static Page<void> page() => const MaterialPage<void>(child: HomeScreen());
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   late final user = context.select((AuthBloc bloc) => bloc.state.user);
   final List<Widget> categories = <Widget>[
     const Text('Popular'),
@@ -24,9 +24,7 @@ class _HomeState extends State<Home> {
     const Text('Oldest'),
   ];
   final List<bool> _selectedCategories = <bool>[true, false, false];
-  late final List<Post> posts = user.isPremium
-      ? gallery
-      : gallery.where((post) => post.isPremium == false).toList();
+  late Future<List<Post>> _fetchPosts;
 
   Future<void> openDialog(BuildContext context) {
     return showDialog(
@@ -79,6 +77,12 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _fetchPosts = PostRepository.fetchPosts();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -108,7 +112,7 @@ class _HomeState extends State<Home> {
                       context: context,
                       barrierColor: Colors.black12.withOpacity(0.6),
                       pageBuilder: (_, __, ___) {
-                        return const Upload();
+                        return const UploadScreen();
                       },
                     ),
                     child: const Text('Upload'),
@@ -156,77 +160,37 @@ class _HomeState extends State<Home> {
               children: categories,
             ),
           ),
-          Expanded(
-            child: GridView.custom(
-              padding: const EdgeInsets.all(5),
-              physics: const BouncingScrollPhysics(),
-              gridDelegate: SliverQuiltedGridDelegate(
-                crossAxisCount: 4,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-                repeatPattern: QuiltedGridRepeatPattern.inverted,
-                pattern: [
-                  const QuiltedGridTile(2, 2),
-                  const QuiltedGridTile(1, 1),
-                  const QuiltedGridTile(1, 1),
-                  const QuiltedGridTile(1, 2),
-                ],
-              ),
-              childrenDelegate: SliverChildBuilderDelegate(
-                childCount: posts.length,
-                (context, index) => Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Card(
-                      margin: EdgeInsets.zero,
-                      child: Image.network(
-                        posts[index].image,
-                        fit: BoxFit.cover,
+          FutureBuilder<List<Post>>(
+            future: _fetchPosts,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) => Card(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Theme.of(context).primaryColor),
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                    ),
-                    if (posts[index].isPremium)
-                      Positioned(
-                        right: 10,
-                        top: 10,
-                        child: Image.asset(
-                          kIsWeb ? 'crown.png' : 'assets/crown.png',
-                          height: 20,
-                        ),
-                      ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black45,
-                          ],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 10,
-                      bottom: 10,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            posts[index].title!,
-                            style:
-                                Theme.of(context).primaryTextTheme.bodyMedium,
+                      child: ListTile(
+                        onTap: () => Navigator.of(context).push(
+                          // ignore: inference_failure_on_instance_creation
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                PostScreen(id: snapshot.data![index].id!),
                           ),
-                          Text(
-                            'Description',
-                            style: Theme.of(context).primaryTextTheme.bodySmall,
-                          ),
-                        ],
+                        ),
+                        title: Text(snapshot.data![index].title!),
+                        subtitle: Text(snapshot.data![index].body!),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Center(child: Text('${snapshot.error}'));
+              }
+              return const CircularProgressIndicator();
+            },
           ),
         ],
       ),

@@ -7,7 +7,7 @@ import 'package:flutter_firebase_login/bloc/bloc_observer.dart';
 import 'package:flutter_firebase_login/firebase_options.dart';
 import 'package:flutter_firebase_login/pages/home.dart';
 import 'package:flutter_firebase_login/pages/login.dart';
-import 'package:flutter_firebase_login/repositories/auth_repository.dart';
+import 'package:flutter_firebase_login/repositories/auth.dart';
 import 'package:flutter_firebase_login/theme.dart';
 
 Future<void> main() async {
@@ -53,15 +53,16 @@ class Landing extends StatelessWidget {
   ) {
     switch (state) {
       case AuthStatus.authenticated:
-        return [Home.page()];
+        return [HomeScreen.page()];
       case AuthStatus.unauthenticated:
-        return [Login.page()];
+        return [LoginScreen.page()];
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'No Title',
       theme: theme,
       home: FlowBuilder<AuthStatus>(
         state: context.select((AuthBloc bloc) => bloc.state.status),

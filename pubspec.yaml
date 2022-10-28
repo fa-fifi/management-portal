@@ -21,6 +21,7 @@ dependencies:
     path: packages/form_inputs
   formz: ^0.4.0
   google_sign_in: ^5.4.0
+  http: ^0.13.5
   meta: ^1.7.0
 
 dev_dependencies:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 final theme = ThemeData(
   primarySwatch: Colors.teal,
+  useMaterial3: true,
   inputDecorationTheme: InputDecorationTheme(
     fillColor: Colors.grey.shade200,
     filled: true,

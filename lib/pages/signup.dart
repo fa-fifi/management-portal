@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_login/cubit/signup_cubit.dart';
-import 'package:flutter_firebase_login/repositories/auth_repository.dart';
+import 'package:flutter_firebase_login/repositories/auth.dart';
 import 'package:formz/formz.dart';
 
-class Signup extends StatelessWidget {
-  const Signup({super.key});
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
 
   static Route<void> route() =>
-      MaterialPageRoute<void>(builder: (_) => const Signup());
+      MaterialPageRoute<void>(builder: (_) => const SignupScreen());
 
   @override
   Widget build(BuildContext context) {
